@@ -3,6 +3,7 @@ pipeline {
 
     options {
         skipDefaultCheckout(true)
+        disableConcurrentBuilds()
     }
 
     stages {
@@ -25,6 +26,15 @@ pipeline {
         stage('Run Tests') {
             steps {
                 sh '.venv/bin/python -m unittest discover -v'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                    docker build \
+                      -t umerazizrana/devops-flask-app:build-${BUILD_NUMBER} .
+                '''
             }
         }
     }
