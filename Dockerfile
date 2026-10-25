@@ -13,4 +13,4 @@ USER appuser
 
 EXPOSE 5001
 
-CMD ["python", "-m", "flask", "--app", "app", "run", "--host", "0.0.0.0", "--port", "5001"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5001", "--workers", "2", "--access-logfile", "-", "--error-logfile", "-", "app:app"]
